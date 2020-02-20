@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "name": "npm",
+  "version": "0.0.1",
+  "schematics": {
+    "npm": {
+      "factory": "./src/schematics/npm/schematic",
+      "schema": "./src/schematics/npm/schema.json",
+      "description": "npm schematic"
+    }
+  }
+}
