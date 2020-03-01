@@ -1,0 +1,24 @@
+module.exports = {
+    // Tailwind Paths
+    configJS: 'apps/<%= project %>/tailwind.config.js',
+    sourceCSS: 'apps/<%= project %>/src/tailwind-build.scss',
+    outputCSS: 'apps/<%= project %>/src/tailwind.scss',
+    // Sass
+    sass: true,
+    // PurgeCSS Settings
+    purge:true,
+    keyframes: false,
+    fontFace: false,
+    rejected: false,
+    whitelist: [],
+    whitelistPatterns: [],
+    whitelistPatternsChildren: [],
+    extensions: [
+      '.ts',
+      '.html',
+      '.js'
+    ],
+    extractors: [],
+    content: []
+  }
+  

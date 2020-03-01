@@ -72,6 +72,78 @@
           }
         }
       }
+    },
+    "ng-tailwind": {
+      "root": "libs/ng-tailwind",
+      "sourceRoot": "libs/ng-tailwind/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/ng-tailwind/.eslintrc",
+            "tsConfig": [
+              "libs/ng-tailwind/tsconfig.lib.json",
+              "libs/ng-tailwind/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ng-tailwind/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ng-tailwind/jest.config.js",
+            "tsConfig": "libs/ng-tailwind/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/libs/ng-tailwind",
+            "tsConfig": "libs/ng-tailwind/tsconfig.lib.json",
+            "packageJson": "libs/ng-tailwind/package.json",
+            "main": "libs/ng-tailwind/src/index.ts",
+            "assets": [
+              "libs/ng-tailwind/*.md",
+              {
+                "input": "./libs/ng-tailwind/src",
+                "glob": "**/*.!(ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./libs/ng-tailwind",
+                "glob": "collection.json",
+                "output": "."
+              },
+              {
+                "input": "./libs/ng-tailwind",
+                "glob": "builders.json",
+                "output": "."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ng-tailwind-e2e": {
+      "projectType": "application",
+      "root": "apps/ng-tailwind-e2e",
+      "sourceRoot": "apps/ng-tailwind-e2e/src",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "ng-tailwind:build",
+            "npmPackageName": "@nx-plugins/ng-tailwind",
+            "pluginOutputPath": "dist/libs/ng-tailwind",
+            "jestConfig": "apps/ng-tailwind-e2e/jest.config.js",
+            "tsSpecConfig": "apps/ng-tailwind-e2e/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "cli": {

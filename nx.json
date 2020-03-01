@@ -17,6 +17,13 @@
     "npm-e2e": {
       "tags": [],
       "implicitDependencies": ["npm"]
+    },
+    "ng-tailwind": {
+      "tags": []
+    },
+    "ng-tailwind-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ng-tailwind"]
     }
   }
 }

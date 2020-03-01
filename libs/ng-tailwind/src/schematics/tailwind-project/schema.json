@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "id": "NgTailwind_TailwindProject",
+  "title": "Tailwind project",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type":"string",
+      "description": "The project app name",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "scss": {
+      "type": "boolean",
+      "description": "Activate it if the styles of the project are scss",
+      "default": false
+    },
+    "purge": {
+      "type": "boolean",
+      "description": "Remove unused scss code from tailwind",
+      "alias": "p",
+      "default": false
+    }
+  },
+  "required": []
+}
