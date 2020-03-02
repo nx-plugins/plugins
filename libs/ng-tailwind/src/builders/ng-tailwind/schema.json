@@ -18,5 +18,5 @@
       "description": "purge styles"
     }
   },
-  "required": ["configPath"]
+  "required": []
 }

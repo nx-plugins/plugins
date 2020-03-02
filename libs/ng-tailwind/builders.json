@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/@angular-devkit/architect/src/builders-schema.json",
   "builders": {
-    "build": {
+    "execute": {
       "implementation": "./src/builders/ng-tailwind/builder",
       "schema": "./src/builders/ng-tailwind/schema.json",
       "description": "ng-tailwind builder"

@@ -13,26 +13,24 @@ export function runBuilder(
   options: NgTailwindBuilderSchema,
   context: BuilderContext
 ): Observable<BuilderOutput> {
-  return of({ success: true }).pipe(
-    tap(() => {
-      try{
-        this.selectMode(options);
-        context.logger.info('Builder ran for ng-tailwind');
-        return { success: true };
-      }catch(e){
-        return of({ success: false });
-      }
-    })
-  );
+  context.logger.info('Builder start for ng-tailwind', { options });
+  try {
+    this.selectMode(options);
+    context.logger.info('Builder ran for ng-tailwind');
+    return of({ success: true });
+  } catch (e) {
+    return of({ success: false });
+  }
 }
 
-function selectMode(options: NgTailwindBuilderSchema){
-  switch(options.mode){
-    case "build":{
-      build({ purgeFlag: options.purge, configPath: options.configPath });
+function selectMode(options: NgTailwindBuilderSchema) {
+  switch (options.mode) {
+    case "watch": {
+      return watch({ configPath: options.configPath });
     }
-    case "watch":{
-      watch({ configPath: options.configPath });
+    default: {
+      console.warn(build.toString());
+      return build({ purgeFlag: options.purge, configPath: options.configPath });
     }
   }
 }
