@@ -1,10 +1,12 @@
 import {
   BuilderContext,
   BuilderOutput,
-  createBuilder
+  createBuilder,
+  scheduleTargetAndForget,
+  targetFromTargetString
 } from '@angular-devkit/architect';
-import { Observable, of, from } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { Observable, of, from, noop } from 'rxjs';
+import { map, tap, take, catchError } from 'rxjs/operators';
 import { NgTailwindBuilderSchema } from './schema';
 import * as build from 'ng-tailwindcss/lib/build';
 import * as watch from 'ng-tailwindcss/lib/watch';
@@ -16,12 +18,14 @@ export function runBuilder(
   options: NgTailwindBuilderSchema,
   context: BuilderContext
 ): Observable<BuilderOutput> {
+  {
+    success: true;
+  }
   context.logger.info('Builder start for ng-tailwind', { options });
   return from(selectMode(options)).pipe(
-    map(() => ({ success: true })),
-    tap(() => context.logger.warn('Mutation Tests ran successfully')),
+    options.mode === 'watch' ? tap(noop) : take(1),
     catchError(e => {
-      context.logger.error('Failed to ran mutation tests', e);
+      context.logger.error('Failed to ran tailwind', e);
       return of({ success: false });
     })
   );
@@ -33,24 +37,21 @@ export function runBuilder(
   // }
 }
 
-function selectMode(options: NgTailwindBuilderSchema) {
-  return new Promise((res, rej) => {
-    switch (options.mode) {
-      case 'watch': {
-        return watch({ configPath: options.configPath });
-      }
-      default: {
-        build({
+function selectMode(
+  options: NgTailwindBuilderSchema
+): Observable<BuilderOutput> {
+  return from(
+    options.mode === 'watch'
+      ? watch({ configPath: options.configPath })
+      : build({
           purgeFlag: options.purge,
           configPath: options.configPath
         })
-          .then(response => res(response))
-          .catch(e => {
-            rej(e);
-          });
-      }
-    }
-  });
+  ).pipe(
+    map(result => ({
+      success: true
+    }))
+  );
 }
 
 export default createBuilder(runBuilder);

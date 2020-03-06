@@ -34,7 +34,9 @@ interface NormalizedSchema extends NgTailwindSchematicSchema {
   projectName: string;
 }
 
-function normalizeOptions(options: NgTailwindSchematicSchema): NormalizedSchema {
+function normalizeOptions(
+  options: NgTailwindSchematicSchema
+): NormalizedSchema {
   const projectName = toFileName(options.project);
   return {
     ...options,
@@ -56,13 +58,12 @@ function check(options: NormalizedSchema): Rule {
 
 function generateConfigFiles(options: NormalizedSchema) {
   return (host: Tree, context: TypedSchematicContext<{}, {}>) => {
-
     const projectConfig = getProjectConfig(host, options.project);
 
     return mergeWith(
       apply(url(`./files/config/`), [
         applyTemplates({
-          ...options,
+          ...options
         }),
         move(projectConfig.root)
       ])
@@ -74,7 +75,7 @@ function generateFiles(options: NormalizedSchema) {
   return (host: Tree, context: TypedSchematicContext<{}, {}>) => {
     const projectConfig = getProjectConfig(host, options.project);
 
-    options["ext"]="scss";
+    options['ext'] = 'scss';
     return mergeWith(
       apply(url(`./files/src/`), [
         applyTemplates({
@@ -89,20 +90,18 @@ function generateFiles(options: NormalizedSchema) {
 }
 
 function updateWorkspaceJSON(options: NormalizedSchema): Rule {
-  return updateWorkspace((json)=>{
+  return updateWorkspace(json => {
     const projectConfig = json.projects.get(options.project);
 
     projectConfig.targets.add({
       name: 'tailwind',
-      builder: '@nx-plugins/ng-tailwind:build',
+      builder: '@nx-plugins/ng-tailwind:execute',
       options: {
         configPath: join(normalize(projectConfig.root), 'ng-tailwind.js'),
         purge: false
       }
-    })
-
+    });
   });
-   
 }
 
 export default function(options: NgTailwindSchematicSchema): Rule {
