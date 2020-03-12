@@ -97,6 +97,7 @@ function updateWorkspaceJSON(options: NormalizedSchema): Rule {
       name: 'tailwind',
       builder: '@nx-plugins/ng-tailwind:execute',
       options: {
+        watch: false,
         configPath: join(normalize(projectConfig.root), 'ng-tailwind.js'),
         purge: false
       }

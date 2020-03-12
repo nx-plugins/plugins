@@ -42,7 +42,7 @@
     "eslint": "6.1.0",
     "eslint-config-prettier": "6.0.0",
     "jest": "24.1.0",
-    "ng-tailwindcss": "git://github.com/SebasG22/ng-tailwindcss#feat/build-config",
+    "ng-tailwindcss": "git://github.com/SebasG22/ng-tailwindcss#feat/isolate",
     "prettier": "1.18.2",
     "ts-jest": "24.0.0",
     "ts-node": "~7.0.0",

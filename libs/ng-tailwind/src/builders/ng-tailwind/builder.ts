@@ -5,52 +5,52 @@ import {
   scheduleTargetAndForget,
   targetFromTargetString
 } from '@angular-devkit/architect';
-import { Observable, of, from, noop } from 'rxjs';
-import { map, tap, take, catchError } from 'rxjs/operators';
+import { Observable, of, from } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { NgTailwindBuilderSchema } from './schema';
-import * as build from 'ng-tailwindcss/lib/build';
-import * as watch from 'ng-tailwindcss/lib/watch';
-import { render } from 'node-sass';
-import { normalize, resolve } from 'path';
-import { existsSync } from 'fs';
+import * as build from 'ng-tailwindcss/lib/src/build';
+import * as watch from 'ng-tailwindcss/lib/src/watch';
 
 export function runBuilder(
   options: NgTailwindBuilderSchema,
   context: BuilderContext
 ): Observable<BuilderOutput> {
-  {
-    success: true;
-  }
-  context.logger.info('Builder start for ng-tailwind', { options });
-  return from(selectMode(options)).pipe(
-    options.mode === 'watch' ? tap(noop) : take(1),
+  return from(
+    options.watch
+      ? watch({ configPath: options.configPath })
+      : build({ purgeFlag: options.purge, configPath: options.configPath })
+  ).pipe(
+    map(() => ({
+      success: true
+    })),
     catchError(e => {
-      context.logger.error('Failed to ran tailwind', e);
+      context.logger.error(e.message);
       return of({ success: false });
     })
   );
-  // try {
-  //   selectMode(options);
-  //   context.logger.info('Builder ran for ng-tailwind');
-  // } catch (e) {
-  //   return of({ success: false });
-  // }
 }
 
-function selectMode(
-  options: NgTailwindBuilderSchema
-): Observable<BuilderOutput> {
-  return from(
-    options.mode === 'watch'
-      ? watch({ configPath: options.configPath })
-      : build({
-          purgeFlag: options.purge,
-          configPath: options.configPath
-        })
+/**
+ * @whatItDoes Compile the application using the webpack builder.
+ * @param devServerTarget
+ * @param context
+ * @private
+ */
+export function startDevServer(
+  devServerTarget: string,
+  context: BuilderContext
+): Observable<string> {
+  return scheduleTargetAndForget(
+    context,
+    targetFromTargetString(devServerTarget),
+    {}
   ).pipe(
-    map(result => ({
-      success: true
-    }))
+    map(output => {
+      if (!output.success) {
+        throw new Error('Could not compile application files');
+      }
+      return output.baseUrl as string;
+    })
   );
 }
 

@@ -5,17 +5,21 @@
   "description": "",
   "type": "object",
   "properties": {
-    "mode": {
-      "type": "string",
-      "description": "watch or build"
+    "watch": {
+      "type": "boolean",
+      "description": "Recompile and run ng-tailwind when files change."
     },
     "configPath": {
       "type": "string",
       "description": "path to the ng-tailwind.js"
     },
-    "purge":{
-      "type":"boolean",
-      "description": "purge styles"
+    "purge": {
+      "type": "boolean",
+      "description": "Remove not used style code"
+    },
+    "devServerTarget": {
+      "type": "string",
+      "description": "Dev server target to run after watch files."
     }
   },
   "required": []
