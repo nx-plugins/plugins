@@ -1,10 +1,10 @@
 {
   "$schema": "../../node_modules/@angular-devkit/architect/src/builders-schema.json",
   "builders": {
-    "build": {
-      "implementation": "./src/builders/npm/builder",
-      "schema": "./src/builders/npm/schema.json",
-      "description": "npm builder"
+    "copy-package": {
+      "implementation": "./src/builders/copy-package/builder",
+      "schema": "./src/builders/copy-package/schema.json",
+      "description": "npm copy packagebuilder"
     }
   }
 }

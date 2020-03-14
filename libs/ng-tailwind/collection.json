@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "name": "ng-tailwind",
+  "version": "0.0.1",
+  "schematics": {
+    "init": {
+      "factory": "./src/schematics/init/schematic",
+      "schema": "./src/schematics/init/schema.json",
+      "description": "add ng-tailwind to the workspace"
+    },
+    "tailwind-project": {
+      "factory": "./src/schematics/tailwind-project/schematic",
+      "schema": "./src/schematics/tailwind-project/schema.json",
+      "description": "setup ng-tailwind for a project"
+    }
+  }
+}

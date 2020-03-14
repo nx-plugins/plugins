@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-plugins/npm": ["libs/npm/src/index.ts"]
+      "@nx-plugins/npm": ["libs/npm/src/index.ts"],
+      "@nx-plugins/ng-tailwind": ["libs/ng-tailwind/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
