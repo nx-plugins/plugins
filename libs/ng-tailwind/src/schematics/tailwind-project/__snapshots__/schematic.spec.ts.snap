@@ -10,7 +10,8 @@ Object {
   "5": "/apps/sample-app/tsconfig.json",
   "6": "/apps/sample-app/ng-tailwind.js",
   "7": "/apps/sample-app/tailwind.config.js",
-  "8": "/apps/sample-app/src/tailwind.scss",
+  "8": "/apps/sample-app/src/tailwind-build.scss",
+  "9": "/apps/sample-app/src/tailwind.scss",
 }
 `;
 

@@ -5017,7 +5017,7 @@ neo-async@^2.5.0, neo-async@^2.6.1:
 
 "ng-tailwindcss@git://github.com/SebasG22/ng-tailwindcss#feat/isolate":
   version "2.1.1"
-  resolved "git://github.com/SebasG22/ng-tailwindcss#1a200f8202d97f79d24d1a5bd1b8fcc433698657"
+  resolved "git://github.com/SebasG22/ng-tailwindcss#f5b78fff5c06253ccb23a6742b1bf1e19e988c2f"
   dependencies:
     chokidar "^3.3.1"
     commander "^4.1.1"
