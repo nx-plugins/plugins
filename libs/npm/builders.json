@@ -1,10 +1,15 @@
 {
   "$schema": "../../node_modules/@angular-devkit/architect/src/builders-schema.json",
   "builders": {
-    "copy-package": {
-      "implementation": "./src/builders/copy-package/builder",
-      "schema": "./src/builders/copy-package/schema.json",
-      "description": "npm copy packagebuilder"
+    "sync-package": {
+      "implementation": "./src/builders/sync-package/builder",
+      "schema": "./src/builders/sync-package/schema.json",
+      "description": "npm sync-package package builder"
+    },
+    "deploy": {
+      "implementation": "./src/builders/deploy/builder",
+      "schema": "./src/builders/deploy/schema.json",
+      "description": "npm deploy package builder"
     }
   }
 }

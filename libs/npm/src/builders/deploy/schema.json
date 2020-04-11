@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "$id": "https://json-schema.org/draft-07/schema",
-  "title": "Npm builder",
+  "title": "npm deploy builder",
   "description": "",
   "type": "object",
   "properties": {
@@ -9,9 +9,17 @@
       "type": "string",
       "description": "Path to package json"
     },
-    "outputPath":{
+    "syncPackage": {
+      "type": "boolean",
+      "description": "sync package version"
+    },
+    "ignoreScripts": {
+      "type": "boolean",
+      "description": "ignoreScripts flag"
+    },
+    "access": {
       "type": "string",
-      "description": "Output path to package json"
+      "description": "public access flag"
     }
   },
   "required": []

@@ -1,6 +1,5 @@
 import { JsonObject } from '@angular-devkit/core';
 
-export interface NpmBuilderSchema extends JsonObject {
+export interface NpmBumpBuilderSchema extends JsonObject {
     packageJsonPath: string;
-    outputPath: string;
 }
