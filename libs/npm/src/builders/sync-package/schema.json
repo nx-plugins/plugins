@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://json-schema.org/draft-07/schema",
+  "title": "npm sync package builder",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "packageJsonPath": {
+      "type": "string",
+      "description": "Path to package json"
+    }
+  },
+  "required": []
+}
