@@ -27,6 +27,7 @@
   },
   "private": true,
   "dependencies": {
+    "@nrwl/next": "^10.4.4",
     "node-sass": "^4.13.1"
   },
   "devDependencies": {
