@@ -8,22 +8,22 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "config": "libs/npm/.eslintrc",
-            "tsConfig": [
-              "libs/npm/tsconfig.lib.json",
-              "libs/npm/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/npm/**"]
+            "lintFilePatterns": [
+              "libs/npm/**/*.ts",
+              "libs/npm/**/*.spec.ts",
+              "libs/npm/**/*.spec.tsx",
+              "libs/npm/**/*.spec.js",
+              "libs/npm/**/*.spec.jsx",
+              "libs/npm/**/*.d.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/npm/jest.config.js",
-            "tsConfig": "libs/npm/tsconfig.spec.json",
             "passWithNoTests": true
           }
         },
@@ -67,8 +67,7 @@
             "target": "npm:build",
             "npmPackageName": "@nx-plugins/npm",
             "pluginOutputPath": "dist/libs/npm",
-            "jestConfig": "apps/npm-e2e/jest.config.js",
-            "tsSpecConfig": "apps/npm-e2e/tsconfig.spec.json"
+            "jestConfig": "apps/npm-e2e/jest.config.js"
           }
         }
       }
@@ -80,22 +79,22 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "config": "libs/ng-tailwind/.eslintrc",
-            "tsConfig": [
-              "libs/ng-tailwind/tsconfig.lib.json",
-              "libs/ng-tailwind/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/ng-tailwind/**"]
+            "lintFilePatterns": [
+              "libs/ng-tailwind/**/*.ts",
+              "libs/ng-tailwind/**/*.spec.ts",
+              "libs/ng-tailwind/**/*.spec.tsx",
+              "libs/ng-tailwind/**/*.spec.js",
+              "libs/ng-tailwind/**/*.spec.jsx",
+              "libs/ng-tailwind/**/*.d.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/ng-tailwind/jest.config.js",
-            "tsConfig": "libs/ng-tailwind/tsconfig.spec.json",
             "passWithNoTests": true
           }
         },
@@ -139,8 +138,7 @@
             "target": "ng-tailwind:build",
             "npmPackageName": "@nx-plugins/ng-tailwind",
             "pluginOutputPath": "dist/libs/ng-tailwind",
-            "jestConfig": "apps/ng-tailwind-e2e/jest.config.js",
-            "tsSpecConfig": "apps/ng-tailwind-e2e/tsconfig.spec.json"
+            "jestConfig": "apps/ng-tailwind-e2e/jest.config.js"
           }
         }
       }
