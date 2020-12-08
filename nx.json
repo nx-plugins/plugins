@@ -25,6 +25,18 @@
     "ng-tailwind-e2e": {
       "tags": [],
       "implicitDependencies": ["ng-tailwind"]
+    },
+    "i18n-react-ui": {
+      "tags": []
+    },
+    "i18n-react-data-access": {
+      "tags": []
+    },
+    "i18n-react-utils": {
+      "tags": []
+    },
+    "i18n-core-utils": {
+      "tags": []
     }
   },
   "affected": {

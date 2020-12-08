@@ -142,6 +142,159 @@
           }
         }
       }
+    },
+    "i18n-react-ui": {
+      "root": "libs/i18n/react/ui",
+      "sourceRoot": "libs/i18n/react/ui/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/i18n/react/ui/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "build": {
+          "builder": "@nrwl/web:package",
+          "options": {
+            "outputPath": "dist/libs/i18n/react/ui",
+            "tsConfig": "libs/i18n/react/ui/tsconfig.lib.json",
+            "project": "libs/i18n/react/ui/package.json",
+            "entryFile": "libs/i18n/react/ui/src/index.ts",
+            "external": ["react", "react-dom"],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/i18n/react/ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "i18n-react-data-access": {
+      "root": "libs/i18n/react/data-access",
+      "sourceRoot": "libs/i18n/react/data-access/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/i18n/react/data-access/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "build": {
+          "builder": "@nrwl/web:package",
+          "options": {
+            "outputPath": "dist/libs/i18n/react/data-access",
+            "tsConfig": "libs/i18n/react/data-access/tsconfig.lib.json",
+            "project": "libs/i18n/react/data-access/package.json",
+            "entryFile": "libs/i18n/react/data-access/src/index.ts",
+            "external": ["react", "react-dom"],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/i18n/react/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "i18n-react-utils": {
+      "root": "libs/i18n/react/utils",
+      "sourceRoot": "libs/i18n/react/utils/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/i18n/react/utils/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "build": {
+          "builder": "@nrwl/web:package",
+          "options": {
+            "outputPath": "dist/libs/i18n/react/utils",
+            "tsConfig": "libs/i18n/react/utils/tsconfig.lib.json",
+            "project": "libs/i18n/react/utils/package.json",
+            "entryFile": "libs/i18n/react/utils/src/index.ts",
+            "external": ["react", "react-dom"],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/i18n/react/utils/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "i18n-core-utils": {
+      "root": "libs/i18n/core/utils",
+      "sourceRoot": "libs/i18n/core/utils/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/i18n/core/utils/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/i18n/core/utils/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/libs/i18n/core/utils",
+            "tsConfig": "libs/i18n/core/utils/tsconfig.lib.json",
+            "packageJson": "libs/i18n/core/utils/package.json",
+            "main": "libs/i18n/core/utils/src/index.ts",
+            "assets": ["libs/i18n/core/utils/*.md"]
+          }
+        }
+      }
     }
   },
   "cli": {
