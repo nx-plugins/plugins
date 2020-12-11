@@ -28,6 +28,7 @@
   "private": true,
   "dependencies": {
     "@nrwl/next": "^10.4.4",
+    "himalaya": "^1.1.0",
     "node-sass": "^4.13.1",
     "react": "17.0.1",
     "react-dom": "17.0.1"

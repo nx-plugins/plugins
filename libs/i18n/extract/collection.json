@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "name": "i18n-extract",
+  "version": "0.0.1",
+  "schematics": {
+    "i18n-extract": {
+      "factory": "./src/schematics/i18n-extract/schematic",
+      "schema": "./src/schematics/i18n-extract/schema.json",
+      "description": "i18n--extract schematic"
+    }
+  }
+}

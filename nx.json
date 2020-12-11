@@ -37,6 +37,13 @@
     },
     "i18n-core-utils": {
       "tags": []
+    },
+    "i18n-extract": {
+      "tags": []
+    },
+    "i18n-extract-e2e": {
+      "tags": [],
+      "implicitDependencies": ["i18n-extract"]
     }
   },
   "affected": {
