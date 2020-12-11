@@ -23,6 +23,7 @@ describe('i18n--extract e2e', () => {
     const myapp = uniq('myapp');
 
     ensureNxProject('@nx-plugins/extract', 'dist/libs/i18n/extract');
+    ensureNxProject('@nx-plugins/extract', 'dist/libs/i18n/extract');
     const packageJson = JSON.parse(readFile('package.json'));
     packageJson.devDependencies['@nrwl/next'] = '*';
     updateFile('package.json', JSON.stringify(packageJson));
