@@ -16,21 +16,24 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-plugins/i18n/react/ui": [
+      "@nx-plugins/i18n-react-ui": [
         "dist/libs/i18n/react/ui",
         "libs/i18n/react/ui/src/index.ts"
       ],
-      "@nx-plugins/i18n/react/data-access": [
+      "@nx-plugins/i18n-react-data-access": [
         "dist/libs/i18n/react/data-access",
         "libs/i18n/react/data-access/src/index.ts"
       ],
-      "@nx-plugins/i18n/react/utils": [
+      "@nx-plugins/i18n-react-utils": [
         "dist/libs/i18n/react/utils",
         "libs/i18n/react/utils/src/index.ts"
       ],
-      "@nx-plugins/i18n/core/utils": ["libs/i18n/core/utils/src/index.ts"],
+      "@nx-plugins/i18n-core-utils": [
+        "dist/libs/i18n/core/utils",
+        "libs/i18n/core/utils/src/index.ts"
+      ],
       "@nx-plugins/i18n-extract": ["libs/i18n/extract/src/index.ts"],
-      "@nx-plugins/i18n/react/package": ["libs/i18n/react/package/src/index.ts"]
+      "@nx-plugins/i18n-react-package": ["libs/i18n/react/package/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

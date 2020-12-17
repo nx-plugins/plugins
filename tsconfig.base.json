@@ -18,12 +18,12 @@
     "paths": {
       "@nx-plugins/npm": ["libs/npm/src/index.ts"],
       "@nx-plugins/ng-tailwind": ["libs/ng-tailwind/src/index.ts"],
-      "@nx-plugins/i18n/react/ui": ["libs/i18n/react/ui/src/index.ts"],
-      "@nx-plugins/i18n/react/data-access": [
+      "@nx-plugins/i18n-react-ui": ["libs/i18n/react/ui/src/index.ts"],
+      "@nx-plugins/i18n-react-data-access": [
         "libs/i18n/react/data-access/src/index.ts"
       ],
-      "@nx-plugins/i18n/react/utils": ["libs/i18n/react/utils/src/index.ts"],
-      "@nx-plugins/i18n/core/utils": ["libs/i18n/core/utils/src/index.ts"],
+      "@nx-plugins/i18n-react-utils": ["libs/i18n/react/utils/src/index.ts"],
+      "@nx-plugins/i18n-core-utils": ["libs/i18n/core/utils/src/index.ts"],
       "@nx-plugins/i18n-extract": ["libs/i18n//extract/src/index.ts"]
     }
   },

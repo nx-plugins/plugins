@@ -2,7 +2,7 @@ import {
     getTransMetadata,
     parseTranslationInside,
     removeTags,
-  } from '@nx-plugins/i18n/core/utils';
+  } from '@nx-plugins/i18n-core-utils';
 import { isObject } from 'util';
 import React from 'react';
 export interface TransProps {

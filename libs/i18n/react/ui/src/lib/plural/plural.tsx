@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { TranslateContext } from '@nx-plugins/i18n/react/data-access';
+import { TranslateContext } from '@nx-plugins/i18n-react-data-access';
 
 /* eslint-disable-next-line */
 export interface PluralProps {
