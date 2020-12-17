@@ -359,6 +359,46 @@
           }
         }
       }
+    },
+    "i18n-react-package": {
+      "root": "libs/i18n/react/package",
+      "sourceRoot": "libs/i18n/react/package/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/i18n/react/package/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "build": {
+          "builder": "@nrwl/web:package",
+          "options": {
+            "outputPath": "dist/libs/i18n/react/package",
+            "tsConfig": "libs/i18n/react/package/tsconfig.lib.json",
+            "project": "libs/i18n/react/package/package.json",
+            "entryFile": "libs/i18n/react/package/src/index.ts",
+            "external": ["react", "react-dom"],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/i18n/react/package/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

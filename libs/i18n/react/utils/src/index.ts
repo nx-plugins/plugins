@@ -1,1 +1,1 @@
-export * from './lib/i18n-react-utils';
+export * from './lib/utils';

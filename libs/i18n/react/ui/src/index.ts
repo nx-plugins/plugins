@@ -1,1 +1,2 @@
-export * from './lib/i18n-react-ui';
+export * from './lib/plural/plural';
+export * from './lib/trans/trans';

@@ -44,6 +44,9 @@
     "i18n-extract-e2e": {
       "tags": [],
       "implicitDependencies": ["i18n-extract"]
+    },
+    "i18n-react-package": {
+      "tags": []
     }
   },
   "affected": {
