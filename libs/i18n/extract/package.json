@@ -1,6 +1,6 @@
 {
-  "name": "@nx-plugins/extract",
-  "version": "0.0.1",
+  "name": "@nx-plugins/i18n-extract",
+  "version": "0.0.1-canary.1",
   "main": "src/index.js",
   "schematics": "./collection.json",
   "builders": "./builders.json"

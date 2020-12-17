@@ -14,9 +14,6 @@ export function runBuilder(
   context: BuilderContext
 ): Observable<BuilderOutput> {
 
-
-  let translations = getTranslations(options.directory, options.locales[0]);
-
   context.logger.error('');
 
   from(extractor)
