@@ -5,15 +5,6 @@
   "description": "",
   "type": "object",
   "properties": {
-    "project": {
-      "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What is the name of the project to extract translations?"
-    },
     "framework": {
       "description": "Add tags to the project (used for linting)",
       "type": "string",
@@ -22,9 +13,8 @@
     },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed",
-      "alias": "d",
-      "default": "i18n"
+      "description": "A directory where the translations are or will be placed",
+      "alias": "d"
     },
     "locales": {
       "type": "array",
@@ -36,8 +26,5 @@
       "alias": "l"
     }
   },
-  "required": [
-    "project",
-    "directory"
-  ]
+  "required": []
 }

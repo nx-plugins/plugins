@@ -8,6 +8,7 @@ export interface PluralProps {
   one?: string;
   two?: string;
   other?:string;
+  children: any;
 }
 
 export function Plural(props: PluralProps) {

@@ -1,41 +1,39 @@
-import { exec, execSync } from 'child_process';
-import { readFileSync, writeFileSync } from 'fs';
-import { Dependencies, DepGraph, NodeFile } from "./types";
+import { readFileSync } from 'fs';
+import { NodeFile } from "./types";
 import { parse } from 'himalaya'
-export const LARGE_BUFFER = 1024 * 1000000;
-
+import { createProjectGraph, onlyWorkspaceProjects, ProjectGraph, ProjectGraphDependency } from '@nrwl/workspace/src/core/project-graph';
+import { readJsonFile } from '@nrwl/workspace';
+import { fileExists, writeJsonFile } from '@nrwl/workspace/src/utils/fileutils';
 
 export function getTranslations(directory: string, locale: string) {
-    return JSON.parse(readFileSync(`${directory}/messages.${locale}.json`, 'utf-8'));
+    if(!fileExists(`${directory}/messages.${locale}.json`)){
+        return {}
+    } else {
+        readJsonFile(`${directory}/messages.${locale}.json`);
+    }
+    
 }
 
 export function getTranslationById(translations: any, id: string) {
     return translations ? translations[id] : null;
 }
 
-export function executeDepGraph(project) {
-    return createExecProcess(`nx dep-graph --include=${project} --exclude=${project}-e2e --file=dep-graph.json`,
-        `Info: Successfully executed dependency graph`
-    ).then(() => {
-        return JSON.parse(readFileSync("dep-graph.json", 'utf-8'));
-    })
-        .catch((e) => {
-            throw new Error("Error: Unable to execute dependency graph");
-        })
+export function getWorkspaceGraph() {
+    return onlyWorkspaceProjects(createProjectGraph());
 }
 
-export function getProjectDeps(depGraph: DepGraph, project: string, exclude: string = '') {
-    return depGraph.graph.dependencies[project].filter((i) =>
+export function getProjectDeps(depGraph: ProjectGraph, project: string, exclude: string = '') {
+    return depGraph.dependencies[project].filter((i) =>
         !i.target.includes(exclude)
     );
 }
 
-export function getNodesFiles(depGraph: DepGraph, project: string, include: string, exclude: string) {
-    return depGraph.graph.nodes[project].data.files.filter((i) =>
+export function getNodesFiles(depGraph: ProjectGraph, project: string, include: string, exclude: string) {
+    return depGraph.nodes[project].data.files.filter((i) =>
         i.ext === include && !i.file.includes(exclude));
 }
 
-export function getProjectDepsFiles(depGraph: DepGraph, projectDeps: Dependencies[], include: string, exclude: string) {
+export function getProjectDepsFiles(depGraph: ProjectGraph, projectDeps: ProjectGraphDependency[], include: string, exclude: string) {
     const deps = projectDeps.map((p: any) => {
         return getNodesFiles(depGraph, p.target, include, exclude);
     });
@@ -44,10 +42,10 @@ export function getProjectDepsFiles(depGraph: DepGraph, projectDeps: Dependencie
 }
 
 export function extractTransUnitsInFiles(files: NodeFile[]) {
-    return files.forEach((p) => {
+    return files.map((p) => {
         const fileContent = readFileSync(p.file).toString();
         const elements = parse(fileContent) as [];
-        elements.filter((i: any) => i.tagName === 'transunit').map((e: any) => {
+        return elements.filter((i: any) => i.tagName === 'transunit').map((e: any) => {
             return { ...e, file: p.file };
         });
     });
@@ -71,7 +69,7 @@ export function manageMetadata(e) {
     }).filter((i) => i.length > 1).toString());
     return {
         value,
-        id, 
+        id,
         description,
         intent,
         content
@@ -80,9 +78,10 @@ export function manageMetadata(e) {
 
 export function manageTrans(elements, translations) {
     let result = [];
-    elements.forEach((e) => {
-        const { id, description, intent, content} = manageMetadata(e);
-        const previousTranslation = getTranslationById(translations,id);
+    // FLAT is used to avoid empty arrays
+    elements.flat().forEach((e) => {
+        const { id, description, intent, content } = manageMetadata(e);
+        const previousTranslation = getTranslationById(translations, id);
         result[id] = {
             id,
             description,
@@ -96,10 +95,10 @@ export function manageTrans(elements, translations) {
 }
 
 export function extractPluralInFiles(files: NodeFile[]) {
-    return files.forEach((p) => {
+    return files.map((p) => {
         const fileContent = readFileSync(p.file).toString();
         const elements = parse(fileContent) as [];
-        elements.filter((i: any) => i.tagName === 'transunit').map((e: any) => {
+        return elements.filter((i: any) => i.tagName === 'plural').map((e: any) => {
             return { ...e, file: p.file };
         });
     });
@@ -107,9 +106,9 @@ export function extractPluralInFiles(files: NodeFile[]) {
 
 export function managePlural(elements, translations) {
     let result = [];
-    elements.forEach((e) => {
-        const { id, description, intent, content} = manageMetadata(e);
-        const previousTranslation = getTranslationById(translations,id);
+    elements.flat().forEach((e) => {
+        const { id, description, intent, content } = manageMetadata(e);
+        const previousTranslation = getTranslationById(translations, id);
         result[id] = {
             id,
             description,
@@ -121,7 +120,8 @@ export function managePlural(elements, translations) {
                 one: previousTranslation ? previousTranslation.target.one : content,
                 two: previousTranslation ? previousTranslation.target.two : content,
                 other: previousTranslation ? previousTranslation.target.other : content,
-            }        }
+            }
+        }
     });
     return result;
 }
@@ -131,44 +131,6 @@ export function removeDoubleWhitespace(data: string) {
 }
 
 export function writeTranslationFile(directory: string, translations: any, locale: string) {
-    writeFileSync(`${directory}/messages.${locale}.json`,
-        JSON.stringify({ translations }, null, 2))
+    writeJsonFile(`${directory}/messages.${locale}.json`, translations )
 }
 
-export function removeFile(path: string) {
-    return execSync(`rm -rf ${path}`);
-}
-
-function createExecProcess(
-    command: string,
-    readyWhen: string,
-    cwd?: string
-): Promise<any> {
-    return new Promise((res) => {
-        const childProcess = exec(command, {
-            maxBuffer: LARGE_BUFFER,
-            cwd,
-        });
-        /**
-         * Ensure the child process is killed when the parent exits
-         */
-        process.on('exit', () => childProcess.kill());
-        childProcess.stdout.on('data', (data) => {
-            process.stdout.write(data);
-            if (readyWhen && data.toString().indexOf(readyWhen) > -1) {
-                res(data);
-            }
-        });
-        childProcess.stderr.on('data', (err) => {
-            process.stderr.write(err);
-            if (readyWhen && err.toString().indexOf(readyWhen) > -1) {
-                res(err);
-            }
-        });
-        childProcess.on('close', (code) => {
-            if (!readyWhen) {
-                res(code);
-            }
-        });
-    });
-}
