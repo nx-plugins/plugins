@@ -4,29 +4,24 @@ type Translation = {
      [key: string]: any
 }
 export interface TranslateContextModel {
-    translations: Translation;
-    locale: string;
-    load: (locale: string, translation: Translation) => void;
-    activate: (locale: string) => void;
+    config: { locales: string[], current: string, messages};
+    changeLocale: (locale: string) => void;
   };
 export const TranslateContext = createContext<TranslateContextModel>(undefined);
 
 export const TranslateContextProvider = (props) => {
-    const [translations, setTranslations] = useState({});
-    const [locale, setLocale] = useState(undefined);
+    const [config, setConfig] = useState({});
+    
+    useEffect(() => {
+        setConfig(props.config);
+      }, [props.config]);
 
-    useEffect(() => { console.log(translations)}, [translations])
-
-    const load = (locale: string, translation: any) => {
-        //  setTranslations({ [locale]: translation });
-    };
-
-    const activate = (locale: string) => {
-        setLocale(locale);
+    const changeLocale = (locale: string) => {
+        setConfig({...config, current: locale});
    };
-  
+
     return (
-        <TranslateContext.Provider value={{translations, locale, load, activate}}>
+        <TranslateContext.Provider value={{config, changeLocale}}>
             { props.children }
         </TranslateContext.Provider>
     );

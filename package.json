@@ -31,7 +31,8 @@
     "himalaya": "^1.1.0",
     "node-sass": "^4.13.1",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "strip-comments": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.9.6",
@@ -54,7 +55,6 @@
     "eslint": "7.10.0",
     "eslint-config-prettier": "6.0.0",
     "jest": "26.2.2",
-    "ng-tailwindcss": "git://github.com/SebasG22/ng-tailwindcss#feat/isolate",
     "prettier": "2.1.2",
     "ts-jest": "26.4.0",
     "ts-node": "9.1.1",

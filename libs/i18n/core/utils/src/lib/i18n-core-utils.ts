@@ -1,21 +1,19 @@
-export function getTransMetadata(value: string) {
-  const id = `@@@${value.split('@@@')[1]}`;
-  const description = `${value.split('|')[0]}`;
-  const intent = `${value.split('|')[1]}`;
-  return { id, description, intent };
+// meaning | description @ customID
+export function getTranslatableContent(value) {
+  const meaningSeparator = value.indexOf('|');
+  const customIdSeparator = value.indexOf('@@@');
+  return {
+    meaning: meaningSeparator > -1 ? value.slice(0, meaningSeparator).trim() : value.slice(0, customIdSeparator).trim(),
+    description: meaningSeparator > -1 ? value.slice(meaningSeparator + 1, customIdSeparator).trim() : "",
+    id: value.slice(customIdSeparator + 3).trim(),
+
+  }
 }
 
-export function parseTranslationInside(value: string){
-  const regexp = /(<[^>]*>)([^]*?)(<[^>]*>)/g;
-
-  return value.split(regexp);
-
-}
-
-export function removeTags(value: string[]){
-  return value.map((i)=> {
-      if(!i.startsWith('<')){
-      return i;
-      }
-      }).filter(i => i)
+export function getMessageById(id: string, config) {
+  if (config.messages && Object.keys(config.messages).length > 0) {
+    const message = config.messages[config.current][id];
+    return message ? message : "Not found";
+  }
+  return "Not found";
 }

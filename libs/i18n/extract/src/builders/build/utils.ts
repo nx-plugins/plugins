@@ -4,14 +4,20 @@ import { parse } from 'himalaya'
 import { createProjectGraph, onlyWorkspaceProjects, ProjectGraph, ProjectGraphDependency } from '@nrwl/workspace/src/core/project-graph';
 import { readJsonFile } from '@nrwl/workspace';
 import { fileExists, writeJsonFile } from '@nrwl/workspace/src/utils/fileutils';
+import * as strip from "strip-comments";
+import { getTranslatableContent } from '@nx-plugins/i18n-core-utils';
+
 
 export function getTranslations(directory: string, locale: string) {
-    if(!fileExists(`${directory}/messages.${locale}.json`)){
+    if (!fileExists(`${directory}/messages.${locale}.json`)) {
         return {}
     } else {
-        readJsonFile(`${directory}/messages.${locale}.json`);
+        try {
+            return readJsonFile(`${directory}/messages.${locale}.json`);
+        } catch (e) {
+            throw Error(`Cannot read the messages translation file located at : ${directory}/messages.${locale}.json.`);
+        }
     }
-    
 }
 
 export function getTranslationById(translations: any, id: string) {
@@ -22,10 +28,8 @@ export function getWorkspaceGraph() {
     return onlyWorkspaceProjects(createProjectGraph());
 }
 
-export function getProjectDeps(depGraph: ProjectGraph, project: string, exclude: string = '') {
-    return depGraph.dependencies[project].filter((i) =>
-        !i.target.includes(exclude)
-    );
+export function getProjectDeps(depGraph: ProjectGraph, project: string) {
+    return depGraph.dependencies[project];
 }
 
 export function getNodesFiles(depGraph: ProjectGraph, project: string, include: string, exclude: string) {
@@ -41,37 +45,46 @@ export function getProjectDepsFiles(depGraph: ProjectGraph, projectDeps: Project
     return a.flat();
 }
 
-export function extractTransUnitsInFiles(files: NodeFile[]) {
+export function extractElementsByTagInFiles(tagName, files: NodeFile[]) {
     return files.map((p) => {
+        const chain = [];
         const fileContent = readFileSync(p.file).toString();
-        const elements = parse(fileContent) as [];
-        return elements.filter((i: any) => i.tagName === 'transunit').map((e: any) => {
-            return { ...e, file: p.file };
-        });
+        const elements = parse(strip(fileContent)) as [];
+        findElementsByTagName(chain, tagName, elements, p);
+        return chain;
     });
 }
 
-export function manageMetadata(e) {
-    const value = e.attributes.find((a) => a.key === 'value').value.slice(1, -1);
-    const id = `${value.split('@@@')[1]}`.replace(/'{1,}/g, "");
-    const meaningDesc = value.split('|');
-    const description = removeDoubleWhitespace(`${meaningDesc[0]}`);
-    const intent = removeDoubleWhitespace(`${meaningDesc[1].slice(0, meaningDesc.indexOf('@@@'))}`);
-    const content = removeDoubleWhitespace(e.children.map((c) => {
-        if (c.type === "text") {
-            return c.content.replace(/{{1,}/g, "").replace(/}{1,}/g, "").replace(/'{1,}/g, "").trim()
-        }
-        return c.children.map((d) => {
-            if (d.type === "text") {
-                return d.content.replace(/}{2,}/g, "").replace(/{{1,}/g, "").replace(/>{1,}/g, "")
+function findElementsByTagName(chain, tagName, elements, p) {
+    for (let element of elements) {
+        if (element.tagName === tagName) {
+            chain.push({ ...element, file: p.file });
+        } else {
+            if (element.children) {
+                findElementsByTagName(chain, tagName, element.children, p)
             }
-        }).toString();
-    }).filter((i) => i.length > 1).toString());
+        }
+    }
+}
+
+export function manageMetadata(e) {
+    const value = removeQuotes(e.attributes.find((a) => a.key === 'value'));
+    const { meaning, description, id } = getTranslatableContent(value);
+    const content = e.children.map((c) => {
+        if (c.type === "text") {
+            return c.content.trim();
+        }
+        else {
+            console.error("Invalid element");
+            // Throw an error here because the transunit contains elements inside
+        }
+    }).toString();
+
     return {
         value,
         id,
         description,
-        intent,
+        meaning,
         content
     }
 }
@@ -80,39 +93,29 @@ export function manageTrans(elements, translations) {
     let result = [];
     // FLAT is used to avoid empty arrays
     elements.flat().forEach((e) => {
-        const { id, description, intent, content } = manageMetadata(e);
+        const { id, description, meaning, content } = manageMetadata(e);
         const previousTranslation = getTranslationById(translations, id);
         result[id] = {
             id,
             description,
-            intent,
+            meaning,
             source: e.file,
             type: 'TransUnit',
-            target: previousTranslation ? previousTranslation.target : content,
+            target: previousTranslation ? previousTranslation.target : content
         }
     });
     return result;
 }
 
-export function extractPluralInFiles(files: NodeFile[]) {
-    return files.map((p) => {
-        const fileContent = readFileSync(p.file).toString();
-        const elements = parse(fileContent) as [];
-        return elements.filter((i: any) => i.tagName === 'plural').map((e: any) => {
-            return { ...e, file: p.file };
-        });
-    });
-}
-
 export function managePlural(elements, translations) {
     let result = [];
     elements.flat().forEach((e) => {
-        const { id, description, intent, content } = manageMetadata(e);
+        const { id, description, meaning, content } = manageMetadata(e);
         const previousTranslation = getTranslationById(translations, id);
         result[id] = {
             id,
             description,
-            intent,
+            meaning,
             source: e.file,
             type: 'Plural',
             target: {
@@ -126,11 +129,10 @@ export function managePlural(elements, translations) {
     return result;
 }
 
-export function removeDoubleWhitespace(data: string) {
-    return data.replace(/\s{2,}/g, ' ')
+export function removeQuotes(value: string) {
+    return value.replace(/['"]+/g, '');
 }
 
 export function writeTranslationFile(directory: string, translations: any, locale: string) {
-    writeJsonFile(`${directory}/messages.${locale}.json`, translations )
+    writeJsonFile(`${directory}/messages.${locale}.json`, translations);
 }
-

@@ -3,7 +3,7 @@ import { TranslateContext } from '@nx-plugins/i18n-react-data-access';
 
 /* eslint-disable-next-line */
 export interface PluralProps {
-  value: number;
+  value: any; // Should be number
   zero?: string; 
   one?: string;
   two?: string;

@@ -24,6 +24,12 @@
       "uniqueItems": true,
       "description": "A directory where the project is placed",
       "alias": "l"
+    },
+    "verbose": {
+      "description": "Verbose details",
+      "type": "boolean",
+      "alias": "v",
+      "default": false
     }
   },
   "required": []
