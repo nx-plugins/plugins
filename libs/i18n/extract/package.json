@@ -1,6 +1,6 @@
 {
   "name": "@nx-plugins/i18n",
-  "version": "0.0.1-canary.19",
+  "version": "0.0.1-canary.20",
   "main": "src/index.js",
   "schematics": "./collection.json",
   "builders": "./builders.json"
