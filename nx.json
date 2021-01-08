@@ -47,6 +47,9 @@
     },
     "i18n-react-package": {
       "tags": []
+    },
+    "i18n-react": {
+      "tags": []
     }
   },
   "affected": {

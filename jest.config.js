@@ -9,5 +9,6 @@ module.exports = {
     '<rootDir>/libs/i18n//extract',
     '<rootDir>/apps\\i18n\\extract-e2e',
     '<rootDir>/libs/i18n/react/package',
+    '<rootDir>/libs/i18n/react',
   ],
 };

@@ -24,7 +24,8 @@
       ],
       "@nx-plugins/i18n-react-utils": ["libs/i18n/react/utils/src/index.ts"],
       "@nx-plugins/i18n-core-utils": ["libs/i18n/core/utils/src/index.ts"],
-      "@nx-plugins/i18n-extract": ["libs/i18n//extract/src/index.ts"]
+      "@nx-plugins/i18n-extract": ["libs/i18n//extract/src/index.ts"],
+      "@nx-plugins/i18n-react": ["libs/i18n/react/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
